@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test Case Manager</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <p class="brand-kicker">QA</p>
+        <h1>Test Case Manager</h1>
+      </div>
+
+      <button id="show-project-form" class="btn btn-primary" type="button">Add project</button>
+
+      <form id="project-form" class="stack-form" hidden>
+        <label>
+          Name
+          <input name="name" type="text" maxlength="200" required>
+        </label>
+        <label>
+          Description
+          <textarea name="description" rows="3" maxlength="5000"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button id="cancel-project" type="button" class="btn btn-ghost">Cancel</button>
+        </div>
+      </form>
+
+      <ul id="project-list" class="item-list"></ul>
+    </aside>
+
+    <main class="content">
+      <p id="message" class="message" hidden></p>
+      <section id="welcome">
+        <h2>Pick a project</h2>
+        <p>Projects are listed on the left. Add one if this is a new workspace.</p>
+      </section>
+
+      <section id="project-view" hidden>
+        <header class="content-header">
+          <div>
+            <p class="eyebrow">Project</p>
+            <h2 id="project-title"></h2>
+            <p id="project-description" class="muted"></p>
+          </div>
+          <div class="header-actions">
+            <button id="export-btn" class="btn btn-primary" type="button">Export to Excel</button>
+            <button id="delete-project-btn" class="btn btn-danger" type="button">Delete project</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Requirements</h3>
+            <button id="show-requirement-form" class="btn btn-secondary" type="button">Add requirement</button>
+          </div>
+
+          <form id="requirement-form" class="stack-form" hidden>
+            <label>
+              Title
+              <input name="title" type="text" maxlength="200" required>
+            </label>
+            <label>
+              Description
+              <textarea name="description" rows="3" maxlength="5000"></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button id="cancel-requirement" type="button" class="btn btn-ghost">Cancel</button>
+            </div>
+          </form>
+
+          <ul id="requirement-list" class="item-list"></ul>
+        </section>
+
+        <section id="cases-panel" class="panel" hidden>
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Requirement</p>
+              <h3 id="requirement-title"></h3>
+            </div>
+            <div class="header-actions">
+              <button id="add-case-btn" class="btn btn-primary" type="button">Add test case</button>
+              <button id="delete-requirement-btn" class="btn btn-danger" type="button">Delete requirement</button>
+            </div>
+          </div>
+
+          <div class="filters">
+            <label>
+              Type
+              <select id="filter-type">
+                <option value="">All</option>
+                <option value="positive">positive</option>
+                <option value="negative">negative</option>
+                <option value="edge">edge</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select id="filter-priority">
+                <option value="">All</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </label>
+            <label>
+              Status
+              <select id="filter-status">
+                <option value="">All</option>
+                <option value="Draft">Draft</option>
+                <option value="Approved">Approved</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="case-rows"></tbody>
+            </table>
+          </div>
+          <p id="cases-empty" class="muted" hidden>No test cases match these filters.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="case-modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="case-modal-title">
+      <h3 id="case-modal-title">Add test case</h3>
+      <form id="case-form" class="stack-form">
+        <label>
+          Title
+          <input name="title" type="text" maxlength="200" required>
+        </label>
+        <div class="form-row">
+          <label>
+            Type
+            <select name="type" required>
+              <option value="positive">positive</option>
+              <option value="negative">negative</option>
+              <option value="edge">edge</option>
+            </select>
+          </label>
+          <label>
+            Priority
+            <select name="priority" required>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select name="status" required>
+              <option value="Draft">Draft</option>
+              <option value="Approved">Approved</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Preconditions
+          <textarea name="preconditions" rows="3" maxlength="10000"></textarea>
+        </label>
+        <label>
+          Steps
+          <textarea name="steps" rows="4" maxlength="10000" placeholder="One step per line"></textarea>
+        </label>
+        <label>
+          Expected result
+          <textarea name="expected_result" rows="3" maxlength="10000"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button id="cancel-case" type="button" class="btn btn-ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
